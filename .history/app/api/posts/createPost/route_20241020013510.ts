@@ -12,7 +12,9 @@ export async function POST(request: Request) {
         },
       });
 
-      // Return the new post
+      
+  
+      // Return success message
       return NextResponse.json(newPost, { status: 200 });
     } catch (error) {
       return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
