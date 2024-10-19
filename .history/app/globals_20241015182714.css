@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+.custom-textarea {
+  outline: none;         /* Remove focus outline */
+  resize: none;          /* Remove bottom-right resize icon */
+  overflow: auto;          /* Allow scrolling */
+  scrollbar-width: none;   /* For Firefox */
+  -ms-overflow-style: none;/* For Internet Explorer and Edge */ 
+}
+
+/* Styling the placeholder */
+.custom-textarea::placeholder {
+  font-size: 12px;       /* Make the placeholder font smaller */
+  color: rgb(204, 133, 2);           /* You can adjust the placeholder color too */
+}
+
+/* Optional: If you also want to prevent focus effects (like a border color change), use this */
+.custom-textarea:focus {
+  outline: none;         /* Ensure no focus outline on focus */
+  border: none;          /* Prevent any border from appearing */
+}
+
+.custom-textarea::-webkit-scrollbar {
+  display: none;         /* Hide the scrollbar for WebKit browsers */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

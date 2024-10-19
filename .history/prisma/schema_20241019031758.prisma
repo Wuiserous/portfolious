@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for Post Types
+enum PostType {
+  PROJECT
+  JOB
+  GENERAL
+}
+
+// Enum for User Roles
+enum UserRole {
+  DEVELOPER
+  RECRUITER
+}
+
+// Enum for Developer Skill Metrics
+enum SkillMetric {
+  LEADERSHIP
+  COLLABORATION
+  ENGAGEMENT
+  QUALITY
+  INNOVATION
+}
+
+// User Model
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(DEVELOPER)  // DEVELOPER or RECRUITER
+  accounts      Account[] 
+  sessions      Session[]
+  
+  // Developer Metrics
+  likes               Int          @default(0)
+  ignites             Int          @default(0)
+  saves               Int          @default(0)
+  comments            Int          @default(0)
+  challengeCompletion Int          @default(0)
+  problemsSolved      Int          @default(0)
+  collaborationInvites Int         @default(0)
+  mentions            Int          @default(0)
+  projectsCount       Int          @default(0)
+  commits             Int          @default(0)
+  postFrequency       Int          @default(0)
+  suggestionDrops     Int          @default(0)
+  suggestionsTaken    Int          @default(0)
+  demoLinkClicks      Int          @default(0)
+  timeSpentOnApp      Int          @default(0)
+  leadershipScore     Float        @default(0)
+  collaborationScore  Float        @default(0)
+  engagementScore     Float        @default(0)
+  qualityScore        Float        @default(0)
+  innovationScore     Float        @default(0)
+  overallScore        Float        @default(0)
+
+  // Relationships
+  postsAsUser    Post[]  @relation("UserPosts")  // This relation already exists, no change needed
+  projects       Project[] @relation("UserProjects")  // Make sure the relation name is unique
+}
+
+
+// Account Model
+model Account {
+  id                 Int       @id @default(autoincrement())
+  userId             Int
+  provider           String
+  providerAccountId  String
+  user               User      @relation(fields: [userId], references: [id])
+}
+
+// Session Model
+model Session {
+  id                 Int       @id @default(autoincrement())
+  sessionToken       String    @unique
+  userId             Int
+  user               User      @relation(fields: [userId], references: [id])
+}
+
+// Project Model
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  userId      Int
+  user        User     @relation("UserProjects", fields: [userId], references: [id])
+
+  // Project-specific Post Relationship
+  postId      Int?
+  post        Post?    @relation(fields: [postId], references: [id])
+}
+
+// Post Model
+model Post {
+  id           Int      @id @default(autoincrement())
+  content      String
+  createdAt    DateTime @default(now())
+  postType     PostType // This defines whether the post is a PROJECT, JOB, or GENERAL
+  userId       Int
+  user         User     @relation("UserPosts", fields: [userId], references: [id])
+
+  // Job-specific fields
+  availableRoles String?  // Null for non-job posts
+
+  // Project-specific fields
+  projectId    Int?  // Null for non-project posts
+  project      Project? @relation(fields: [projectId], references: [id])
+}
+
+// Metrics and Scores Calculation
+// DeveloperMetric Model
+model DeveloperMetric {
+  id               Int       @id @default(autoincrement())
+  userId           Int
+  user             User      @relation("UserMetrics", fields: [userId], references: [id])
+  skillMetric      SkillMetric
+  score            Float     @default(0)
+
+  // This relation is for the same user but with a different name
+  developer        User      @relation("DeveloperMetrics", fields: [userId], references: [id])
+}
+

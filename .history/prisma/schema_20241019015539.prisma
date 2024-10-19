@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enum for Post Types
+enum PostType {
+  PROJECT
+  JOB
+  GENERAL
+}
+
+// Enum for User Roles
+enum UserRole {
+  DEVELOPER
+  RECRUITER
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole  @default(DEVELOPER)  // DEVELOPER or RECRUITER
+  accounts      Account[]
+  sessions      Session[]
+  projects      Project[]  // A developer can have multiple projects
+  posts         Post[]     // A user can create multiple posts
+}
+
+model Account {
+  id                 Int       @id @default(autoincrement())
+  userId             Int
+  provider           String
+  providerAccountId  String
+  user               User      @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id                 Int       @id @default(autoincrement())
+  sessionToken       String    @unique
+  userId             Int
+  user               User      @relation(fields: [userId], references: [id])
+}
+
+// Project Model
+model Project {
+  id         Int      @id @default(autoincrement())
+  title      String
+  description String
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+}
+
+// Post Model
+model Post {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createdAt  DateTime @default(now())
+  postType   PostType // This defines whether the post is a PROJECT, JOB, or GENERAL
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+
+  // Fields for Job-specific posts
+  availableRoles String?  // Null for non-job posts
+
+  // Relationship for Project-specific posts
+  projectId   Int?  // Null for non-project posts
+  project     Project? @relation(fields: [projectId], references: [id])
+}

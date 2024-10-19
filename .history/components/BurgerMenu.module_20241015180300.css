@@ -1,0 +1,53 @@
+/* components/BurgerMenu.module.css */
+
+.menuContainer {
+    position: relative;
+  }
+  
+  .burgerIcon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    cursor: pointer;
+    trans
+  }
+  
+  .burgerIcon .bar {
+    width: 25px;
+    height: 3px;
+    background-color: rgb(255, 255, 255);
+    margin: 4px 0;
+    transition: all 0.3s ease;
+  }
+  
+  .menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100%;
+    width: 250px;
+    background-color: #333;
+    padding: 50px 20px;
+    transition: left 0.4s ease;
+  }
+  
+  .menu ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu ul li {
+    margin: 20px 0;
+  }
+  
+  .menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .menuContainer:hover .menu {
+    left: 0;
+  }
+  

@@ -1,0 +1,25 @@
+'use client';
+import styles from './BurgerMenu.module.css';
+
+interface Post {
+    id: number;
+    content: string;        
+} // Assuming you have types defined or you can just use `interface` locally
+
+export default function Middle({ posts }: { posts: Post[] }) {
+    return (
+        <div className="w-[50%] h-[100%] flex flex-col justify-center items-center ">
+            <div className={`flex sticky top-0 gap-2 w-full h-fit justify-between items-center bg-transparent ${styles.navBar}`}>
+                for you
+            </div>
+            <div className="w-[100%] pt-8 h-[100vh] overflow-y-scroll flex flex-col gap-2 p-2 bg-transparent no-scrollbar scroll-smooth">
+           {posts.map((post) => (
+            <div key={post.id} className="w-[100%] h-fit p-2 bg-transparent border-[0.5px] border-gray-700 rounded-md">
+              {post.content}
+            </div>
+           ))}
+        </div>
+        </div>
+        
+    );
+}
