@@ -39,8 +39,8 @@ export default function Home() {
   return (
     <div className="flex h-[100vh] w-[100vw]">
       <Left addPost={addPost} />
-      {/* <Middle posts={posts} />
-      <Right /> */}
+      {/* <Middle posts={posts} /> */}
+      {/* <Right /> */}
     </div>
   );
 }

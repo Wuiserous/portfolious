@@ -14,8 +14,8 @@ export async function POST(request: Request) {
 
       // Return the new post
       return NextResponse.json(newPost, { status: 200 });
-    } catch (error: any) {
-      return NextResponse.json({ message: 'Failed to create post', error: error.message }, { status: 500 });
+    } catch (error) {
+      return NextResponse.json({ message: 'Failed to create post', error.message }, { status: 500 });
     }
   }
   
