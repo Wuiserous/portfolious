@@ -72,9 +72,9 @@ export default function Middle() {
                         <span><strong>_</strong></span>
                     )}
                     {session?.user?(
-                        <span className='text-[12px] mt-1 text-gray-500'>@{session.user.username}</span>
+                        <span className='text-[12px] mt-1 text-gray-500'>{session.user.username}</span>
                     ):(
-                        <span className='text-[12px] mt-1 text-gray-500'>@_</span>
+                        <span className='text-[12px] mt-1 text-gray-500'>@Wuis</span>
                     )}    
                     </div> 
                 </div>

@@ -66,16 +66,9 @@ export default function Middle() {
                 ):(<img src="moon.png" alt="User Profile Image" className="rounded-full" />)}
                     </div>
                     <div className='flex justify-center gap-1 items-start'>
-                    {session?.user?(
-                        <span><strong>{session.user.name}</strong></span>
-                    ):(
-                        <span><strong>_</strong></span>
-                    )}
-                    {session?.user?(
-                        <span className='text-[12px] mt-1 text-gray-500'>@{session.user.username}</span>
-                    ):(
-                        <span className='text-[12px] mt-1 text-gray-500'>@_</span>
-                    )}    
+                    {session?.user}    
+                    <span><strong>Wuis</strong></span>
+                    <span className='text-[12px] mt-1 text-gray-500'>@Wuis</span>
                     </div> 
                 </div>
                 <div className='flex p-1'>
