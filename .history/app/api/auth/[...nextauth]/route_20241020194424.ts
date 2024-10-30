@@ -1,0 +1,3 @@
+
+
+const handler = NextAuth(authOptions);

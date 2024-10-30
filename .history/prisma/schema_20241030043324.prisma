@@ -1,0 +1,60 @@
+// Prisma schema file with additional metrics for skill analysis
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id        String   @id @default(uuid())
+  content   String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+// User model with added metrics for skill analysis
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  username   String @unique
+  email      String    @unique
+  password   String
+  avatarUrl  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt()
+  posts      Post[]
+
+  // Skill-related metrics
+  likes                   Int      @default(0) // Total likes on posts/projects
+  ignites                 Int      @default(0) // Times user has initiated challenges or discussions
+  saves                   Int      @default(0) // Number of times user's work has been saved
+  comments                Int      @default(0) // Total comments on user's work
+  challengeEngagement     Int      @default(0) // Number of challenges participated in
+  challengesCompleted     Int      @default(0) // Challenges successfully completed
+  problemsSolved          Int      @default(0) // Total problems solved by user
+  collaborationInvites    Int      @default(0) // Times user has been invited to collaborate
+  mentions                Int      @default(0) // Number of times user was mentioned by others
+  projectsContributed     Int      @default(0) // Number of projects user has worked on
+  commitFrequency         Int      @default(0) // Frequency of commits by user
+  postFrequency           Int      @default(0) // Frequency of content posts by user
+  suggestionDrops         Int      @default(0) // Times user suggested platform features/improvements
+  suggestionsAccepted     Int      @default(0) // Suggestions accepted/implemented by platform
+  projectEngagementClicks Int      @default(0) // Demo link clicks for user projects
+  timeSpent               Int      @default(0) // Total time spent on app (in minutes or hours)
+
+  // Additional calculated fields
+  qualityScore            Float    @default(0.0) // Calculated score based on likes-to-post ratio
+  utilityScore            Float    @default(0.0) // Calculated score based on saves frequency
+  engagementRate          Float    @default(0.0) // Engagement rate based on comments
+  problemSolvingScore     Float    @default(0.0) // Problem-solving score based on problems solved and challenges
+  leadershipScore         Float    @default(0.0) // Leadership score based on ignites and collaboration invites
+  innovationScore         Float    @default(0.0) // Innovation score based on accepted suggestions
+
+  // Skill Mirror score (final aggregated score for skill level)
+  skillMirrorScore        Float    @default(0.0) // Composite score of all skill metrics
+}
